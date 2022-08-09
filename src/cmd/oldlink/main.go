@@ -15,6 +15,7 @@ import (
 	"cmd/oldlink/internal/ld"
 	"cmd/oldlink/internal/mips"
 	"cmd/oldlink/internal/mips64"
+	"cmd/oldlink/internal/loong64"
 	"cmd/oldlink/internal/ppc64"
 	"cmd/oldlink/internal/riscv64"
 	"cmd/oldlink/internal/s390x"
@@ -58,6 +59,8 @@ func main() {
 		arch, theArch = mips.Init()
 	case "mips64", "mips64le":
 		arch, theArch = mips64.Init()
+	case "loong64":
+		arch, theArch = loong64.Init()
 	case "ppc64", "ppc64le":
 		arch, theArch = ppc64.Init()
 	case "riscv64":

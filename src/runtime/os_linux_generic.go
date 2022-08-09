@@ -6,6 +6,7 @@
 // +build !mipsle
 // +build !mips64
 // +build !mips64le
+// +build !loong64
 // +build !s390x
 // +build !ppc64
 // +build linux

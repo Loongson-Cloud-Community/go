@@ -1835,6 +1835,8 @@ func hostlinkArchArgs(arch *sys.Arch) []string {
 		return []string{"-marm"}
 	case sys.ARM64:
 		// nothing needed
+	case sys.LOONG64:
+		return []string{"-mabi=lp64"}
 	case sys.MIPS64:
 		return []string{"-mabi=64"}
 	case sys.MIPS:

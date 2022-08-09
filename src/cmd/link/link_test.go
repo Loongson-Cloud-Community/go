@@ -180,6 +180,8 @@ func TestIssue33979(t *testing.T) {
 	switch runtime.GOARCH {
 	case "mips", "mipsle", "mips64", "mips64le":
 		t.Skipf("Skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
+	case "loong64":
+		t.Skipf("Skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
 	if runtime.GOOS == "aix" {
 		t.Skipf("Skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
@@ -538,6 +540,10 @@ func TestStrictDup(t *testing.T) {
 func TestOldLink(t *testing.T) {
 	// Test that old object file format still works.
 	// TODO(go115newobj): delete.
+	// https://github.com/golang/go/issues/39509#issuecomment-658456303
+	if runtime.GOOS == "linux" && runtime.GOARCH == "loong64" {
+		t.Skip("old link,skip the test")
+	}
 
 	testenv.MustHaveGoBuild(t)
 

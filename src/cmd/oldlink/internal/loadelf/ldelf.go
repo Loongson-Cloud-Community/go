@@ -570,6 +570,11 @@ func load(arch *sys.Arch, localSymVersion int, newSym, lookup lookupFunc, f *bio
 			return errorf("elf object but not mips64")
 		}
 
+	case sys.LOONG64:
+		if elfobj.machine != ElfMachMips || hdr.Ident[4] != ElfClass64 {
+			return errorf("elf object but not loong64")
+		}
+
 	case sys.ARM:
 		if e != binary.LittleEndian || elfobj.machine != ElfMachArm || hdr.Ident[4] != ElfClass32 {
 			return errorf("elf object but not arm")
@@ -916,6 +921,11 @@ func load(arch *sys.Arch, localSymVersion int, newSym, lookup lookupFunc, f *bio
 				switch arch.Family {
 				case sys.MIPS64:
 					// https://www.linux-mips.org/pub/linux/mips/doc/ABI/elf64-2.4.pdf
+					// The doc shows it's different with general Linux ELF
+					symIdx = int(e.Uint32(p))
+					relocType = uint64(p[7])
+				case sys.LOONG64:
+					// https://www.linux-loong64.org/pub/linux/loong64/doc/ABI/elf64-2.4.pdf
 					// The doc shows it's different with general Linux ELF
 					symIdx = int(e.Uint32(p))
 					relocType = uint64(p[7])

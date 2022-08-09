@@ -743,6 +743,7 @@ func (ctxt *Link) windynrelocsyms() {
 	}
 
 	rel := ctxt.loader.LookupOrCreateSym(".rel", 0)
+	ctxt.Logf("{rel}")
 	relu := ctxt.loader.MakeSymbolUpdater(rel)
 	relu.SetType(sym.STEXT)
 

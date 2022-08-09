@@ -178,6 +178,7 @@ const (
 	EM_ALPHA_STD         = 41
 	EM_ALPHA             = 0x9026
 	EM_RISCV             = 243
+	EM_LOONGARCH         = 258
 	SHN_UNDEF            = 0
 	SHN_LORESERVE        = 0xff00
 	SHN_LOPROC           = 0xff00
@@ -487,7 +488,7 @@ var buildinfo []byte
 func Elfinit(ctxt *Link) {
 	ctxt.IsELF = true
 
-	if ctxt.Arch.InFamily(sys.AMD64, sys.ARM64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X) {
+	if ctxt.Arch.InFamily(sys.AMD64, sys.ARM64, sys.MIPS64, sys.LOONG64, sys.PPC64, sys.RISCV64, sys.S390X) {
 		elfRelType = ".rela"
 	} else {
 		elfRelType = ".rel"
@@ -502,10 +503,13 @@ func Elfinit(ctxt *Link) {
 			ehdr.flags = 2 /* Version 2 ABI */
 		}
 		fallthrough
-	case sys.AMD64, sys.ARM64, sys.MIPS64, sys.RISCV64:
+	case sys.AMD64, sys.ARM64, sys.MIPS64, sys.LOONG64, sys.RISCV64:
 		if ctxt.Arch.Family == sys.MIPS64 {
 			ehdr.flags = 0x20000004 /* MIPS 3 CPIC */
+		} else if ctxt.Arch.Family == sys.LOONG64 {
+			ehdr.flags = 0x3
 		}
+
 		elf64 = true
 
 		ehdr.phoff = ELF64HDRSIZE      /* Must be ELF64HDRSIZE: first PHdr must follow ELF header */
@@ -1817,6 +1821,8 @@ func Asmbelf(ctxt *Link, symo int64) {
 		Exitf("unknown architecture in asmbelf: %v", ctxt.Arch.Family)
 	case sys.MIPS, sys.MIPS64:
 		eh.machine = EM_MIPS
+	case sys.LOONG64:
+		eh.machine = EM_LOONGARCH
 	case sys.ARM:
 		eh.machine = EM_ARM
 	case sys.AMD64:

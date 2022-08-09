@@ -367,6 +367,7 @@ const (
 	ABasePPC64
 	ABaseARM64
 	ABaseMIPS
+	ABaseLOONG64
 	ABaseRISCV
 	ABaseS390X
 	ABaseWasm

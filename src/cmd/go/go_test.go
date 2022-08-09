@@ -69,6 +69,9 @@ func init() {
 			// many linux/arm machines are too slow to run
 			// the full set of external tests.
 			skipExternal = true
+		case "loong64":
+			// Also slow.
+			skipExternal = true
 		case "mips", "mipsle", "mips64", "mips64le":
 			// Also slow.
 			skipExternal = true
